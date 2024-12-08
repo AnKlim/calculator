@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 
 const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-const operators = ["+", "-", "*", "/"];
+const operators = ["+", "-", "*", "/", "%"];
 
 function App() {
   const [history, setHistory] = useState("");
@@ -29,19 +29,34 @@ function App() {
         divide();
         break;
       }
+      case "%": {
+        percentage();
+        break;
+      }
       default:
         break;
     }
   };
 
   const press = (value) => {
+    if (value === "%") {
+      percentage();
+      return;
+    }
+    if (
+      (currValue.current.includes(".") && value === ".") ||
+      (currValue.current === "0" && value === "0")
+    ) {
+      return;
+    }
     setHistory((prev) => prev + value);
     if (numbers.includes(value)) {
-      currValue.current = value;
+      currValue.current += value;
     }
     if (operators.includes(value)) {
       prevValue.current = currValue.current;
       operator.current = value;
+      currValue.current = "";
     }
   };
 
@@ -78,6 +93,11 @@ function App() {
     setTotal(currValue.current);
   };
 
+  const percentage = () => {
+    currValue.current = +currValue.current / 100;
+    setTotal(currValue.current);
+  };
+
   return (
     <>
       <span>{history}</span>
@@ -87,7 +107,9 @@ function App() {
           {history ? "C" : "АС"}
         </button>
         <button type="button" /* onClick={erase}  */>Стереть</button>
-        <button type="button" /* onClick={() => press('%')} */>%</button>
+        <button type="button" onClick={() => press("%")}>
+          %
+        </button>
         <button type="button" onClick={() => press("/")}>
           /
         </button>
@@ -135,7 +157,9 @@ function App() {
         <button type="button" onClick={() => press("0")}>
           0
         </button>
-        <button type="button" /* onClick={() => press(".")} */>.</button>
+        <button type="button" onClick={() => press(".")}>
+          .
+        </button>
         <button type="button" onClick={calculate}>
           =
         </button>

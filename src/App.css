@@ -1,3 +1,35 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @layer base {
+  * {
+    @apply transition-colors duration-500 ease-in-out;
+  }
+} */
+
+.button-operation {
+  @apply m-auto bg-white rounded-full w-10 h-10 text-teal-500 text-xl hover:bg-slate-100;
+}
+
+.button-number {
+  @apply m-auto rounded-full w-10 h-10 text-slate-300 text-xl hover:bg-slate-100;
+}
+
+.button-functional {
+  @apply m-auto bg-bgFunctional rounded-full w-10 h-10 text-btnFunctional text-xl hover:bg-slate-100;
+}
+
+.theme-light {
+  --background-main-color: white;
+  --color-primary: black;
+  --color-text: rgb(138, 138, 138);
+  --background-functional-color: white;
+}
+
+.theme-dark {
+    --background-main-color: rgb(41, 54, 55);
+  --color-primary: white;
+  --color-text: rgb(223, 237, 236);
+  --background-functional-color: rgb(106, 129, 125);
+}

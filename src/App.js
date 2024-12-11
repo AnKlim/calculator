@@ -2,7 +2,7 @@ import { useRef, useState } from "react";
 import "./App.css";
 
 const numbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."];
-const operators = ["+", "-", "*", "/", "%"];
+const operators = ["+", "-", "*", "/"];
 
 function App() {
   const [theme, setTheme] = useState("light");
@@ -31,7 +31,7 @@ function App() {
         break;
       }
       default:
-        // setTotal(+currValue.current);
+        setTotal(+currValue.current);
         break;
     }
     prevValue.current = "";
@@ -129,8 +129,15 @@ function App() {
   };
 
   const percentage = () => {
-    currValue.current = +currValue.current / 100;
-    setTotal(currValue.current);
+    if (
+      prevValue.current &&
+      (operator.current === "+" || operator.current === "-")
+    ) {
+      currValue.current = (+prevValue.current / 100) * +currValue.current;
+    } else {
+      currValue.current = +currValue.current / 100;
+    }
+    calculate();
   };
 
   return (
@@ -162,7 +169,7 @@ function App() {
           type="button"
           onClick={() => press("/")}
         >
-          &#215;
+          &#247;
         </button>
 
         <button
@@ -191,7 +198,7 @@ function App() {
           type="button"
           onClick={() => press("*")}
         >
-          &#247;
+          &#215;
         </button>
 
         <button
